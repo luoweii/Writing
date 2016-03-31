@@ -6,13 +6,12 @@ var canvash = 750;
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
 var raduis = 50;
-
 canvas.width = canvasw;
 canvas.height = canvash;
-
 var image = new Image();
 var clipping = {x: 100, y: 200, r: raduis};
 image.src = "lss.jpg";
+
 image.onload = function (e) {
     initCanvas();
 };
