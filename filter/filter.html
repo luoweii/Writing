@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>filter</title>
+    <style type="text/css">
+        .image {
+            width: 40%;
+            margin: 20px;
+        }
+
+        #filterimage {
+            filter: blur(10px);
+            -webkit-filter: blur(10px);
+        }
+
+        .filter {
+            margin: 20px;
+            text-align: center;
+            font-size: 25px;
+            font-family: "Microsoft YaHei UI";
+        }
+
+        .button {
+            display: inline;
+            margin: 10px;
+            color: white;
+            font-size: 25px;
+            padding: 3px 10px;
+            border: 1px solid #aaa;
+            border-radius: 5px 5px;
+            cursor: pointer;
+            background: dodgerblue;
+        }
+
+        .button:hover {
+            background: deepskyblue;
+        }
+
+        .selected {
+            border: 2px solid blueviolet;
+        }
+    </style>
+    <script src="http://code.jquery.com/jquery-2.2.2.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(function () {
+            $(".button").click(function () {
+                var value = $(this).attr("value");
+                var default1 = $(this).attr("default");
+                $(".filter:eq(0)").text("filter: " + value);
+                $(".filter:eq(1)").text("default: " + default1);
+                $(".button").removeClass("selected");
+                $(this).addClass("selected");
+                $("#filterimage").css("filter", value);
+                $("#filterimage").css("-webkit-filter", value);
+            });
+        })
+    </script>
+</head>
+<body>
+<div style="text-align: center;">
+    <img class="image" id="rawimage" src="tiansu.jpg"/>
+    <img class="image" id="filterimage" src="tiansu.jpg"/>
+</div>
+<div class="filter">filter: blur(10px)</div>
+<div class="filter">default: 0</div>
+<div class="filter">
+    <div class="button selected" value="blur(10px)" default="0">blur</div>
+    <div class="button" value="grayscale(1)" default="100%">grayscale</div>
+    <div class="button" value="sepia(1)" default="100%">sepia</div>
+    <div class="button" value="saturate(3)" default="100%">saturate</div>
+    <div class="button" value="hue-rotate(90deg)" default="0deg">hue-rotate</div>
+    <div class="button" value="invert(1)" default="100%">invert</div>
+    <div class="button" value="opacity(0.3)" default="100%">opacity</div>
+    <div class="button" value="brightness(0.5)" default="100%">brightness</div>
+    <div class="button" value="contrast(2)" default="100%">contrast</div>
+    <div class="button" value="drop-shadow(10px 10px 2px #aba)" default="">drop-shadow</div>
+</div>
+</body>
+</html>
