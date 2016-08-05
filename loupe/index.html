@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>loupe</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        #demo {
+            display: block;
+            margin: 50px;
+            position: relative;
+            width: 400px;
+            height: 300px;
+            border: 1px solid #ccc;
+        }
+
+        #small-box {
+            position: relative;
+            z-index: 1;
+            width: 400px;
+            height: 300px;
+        }
+
+        #small-box img {
+            width: 400px;
+            height: 300px;
+        }
+
+        #float-box {
+            display: none;
+            width: 120px;
+            height: 100px;
+            position: absolute;
+            background: #ffffcc;
+            border: 1px solid #ccc;
+            filter: alpha(opacity=50);
+            opacity: 0.5;
+            cursor: move;
+        }
+
+        #big-box {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 460px;
+            width: 500px;
+            height: 410px;
+            overflow: hidden;
+            border: 1px solid #ccc;
+            z-index: 1;
+        }
+
+        #big-box img {
+            position: absolute;
+            z-index: 5;
+        }
+    </style>
+    <script>
+        window.onload = function () {
+            var objDemo = document.getElementById("demo");
+            var objSmallBox = document.getElementById("small-box");
+            var objFloatBox = document.getElementById('float-box');
+            var objBigBox = document.getElementById("big-box");
+            var objBigBoxImage = document.getElementsByTagName("img")[1];
+            var tp = document.getElementsByTagName("p")[0];
+
+            var w = parseInt(getStyle(objBigBox, "width"));
+            var w1 = parseInt(getStyle(objFloatBox, "width"));
+            var w2 = parseInt(getStyle(objSmallBox, "width"));
+            objBigBoxImage.style.width = w / w1 * w2 + 'px';
+
+            objSmallBox.onmouseover = function () {
+                objFloatBox.style.display = 'block';
+                objBigBox.style.display = 'block';
+            };
+
+            objSmallBox.onmouseout = function () {
+                objFloatBox.style.display = 'none';
+                objBigBox.style.display = 'none';
+            };
+
+            objSmallBox.onmousemove = function (ev) {
+                objFloatBox.style.display = 'block';
+                objBigBox.style.display = 'block';
+                var _event = ev;
+                var left = _event.clientX - objDemo.offsetLeft - objSmallBox.offsetLeft - objFloatBox.offsetWidth / 2;
+                var top = _event.clientY - objDemo.offsetTop - objSmallBox.offsetTop - objFloatBox.offsetHeight / 2;
+                if (left < 0) {
+                    left = 0;
+                } else if (left > (objSmallBox.offsetWidth - objFloatBox.offsetWidth)) {
+                    left = objSmallBox.offsetWidth - objFloatBox.offsetWidth
+                }
+                if (top < 0) {
+                    top = 0;
+                } else if (top > (objSmallBox.offsetHeight - objFloatBox.offsetHeight)) {
+                    top = objSmallBox.offsetHeight - objFloatBox.offsetHeight;
+                }
+                objFloatBox.style.left = left + 'px';
+                objFloatBox.style.top = top + 'px';
+                var percentX = left / (objSmallBox.offsetWidth - objFloatBox.offsetWidth);
+                var percentY = top / (objSmallBox.offsetHeight - objFloatBox.offsetHeight);
+                objBigBoxImage.style.left = -percentX * (objBigBoxImage.offsetWidth - objBigBox.offsetWidth) + 'px';
+                objBigBoxImage.style.top = -percentY * (objBigBoxImage.offsetHeight - objBigBox.offsetHeight) + 'px';
+            };
+        };
+
+        function getStyle(node, property) {
+            if (node.style[property]) {
+                return node.style[property];
+            }
+            else if (node.currentStyle) {
+                return node.currentStyle[property];
+            }
+            else if (document.defaultView && document.defaultView.getComputedStyle) {
+                var style = document.defaultView.getComputedStyle(node, null);
+                return style.getPropertyValue(property);
+            }
+            return null;
+        }
+
+    </script>
+</head>
+<body>
+<div id="demo">
+    <div id="small-box">
+        <div id="float-box"></div>
+        <img src="pic0.jpg" alt="">
+    </div>
+    <div id="big-box"><img src="pic0.jpg" alt=""></div>
+</div>
+</body>
+</html>
